@@ -1,12 +1,15 @@
 import React, { FunctionComponent } from 'react';
-import styled from '@emotion/styled';
+import styled, { css, keyframes } from 'styled-components';
 
-import { FaGgCircle } from 'react-icons/fa';
+import { FaDotCircle } from 'react-icons/fa';
+
+import { COLOR } from '../../styles/colors';
 
 type Props = {
+    children: any,
     color: string,
-    disabled: boolean,
-    fullWidth: boolean,
+    disabled?: boolean,
+    fullWidth?: boolean,
     size: string,
     href?: any,
     target?: any,
@@ -14,114 +17,128 @@ type Props = {
     variant?: string
 };
 
-// const Base = ``;
 
-const PrimaryButton = styled.button<Props>`
-    color: ${(props: Props) => props.color};
-    background-color: black;
-
-    border-radius: 16px;
-    padding: ${(props: Props) => props.size === "small" ?  8 : 12}px;
-    width: ${(props: Props) => props.fullWidth ? "100%" : "128px"};
-
-    border: none;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    :hover {
-        color: grey;
+const rotate = keyframes`
+    from {
+        transform: rotate(0deg);
     }
 
-    :focus {
-        color: #fff;
+    to {
+        transform: rotate(360deg);
     }
+`;
 
+const StyledSpinner = styled.span`
+    animation: ${rotate} 3s linear infinite;
+    margin-right: 8px;
+`;
+
+const ButtonBase = css`
     :disabled {
         background-color: grey;
         color: #fff;
         cursor: not-allowed;
+        border: none;
     }
 
-    position: relative;
+    display: flex;
+    justify-content: center;
 
-    span {
-        position: absolute;
-        top: 32%;
-        left: 15%;
+    font-weight: 600;
+    cursor: pointer;
+`;
+
+const PrimaryButton = styled.button<Props>`
+    background-color: ${COLOR.BROWN_DARK};
+    color: ${(props: Props) => props.color};
+
+    border-radius: 16px;
+    width: ${(props: Props) => props.fullWidth ? "100%" : "128px"};
+    padding: ${(props: Props) => props.size === "small" ?  8 : 12}px;
+
+    border: 2px solid ${COLOR.BLACK};
+
+    :hover {
+        border: 2px solid ${COLOR.BLUE_VERY_DARK};
     }
+
+    :focus {
+        border: 2px solid ${COLOR.BROWN_DARK};
+    }
+
+    :active {
+        border: 2px solid ${COLOR.BLUE_VERY_DARK};
+        color: #010101;
+    }
+
+    ${ButtonBase};
 
     a {
-        color: ${props => props.color};
+        color: ${(props: Props) => props.color};
         text-decoration: none;   
     }
 `;
 
 const TertiaryButton = styled.button<Props>`
-
     width: ${(props: Props) => props.fullWidth ? "100%" : "128px"};
-    color: ${(props: Props) => props.color};    
-
-    background-color: #fff;
     padding: ${(props: Props) => props.size === "small" ?  8 : 12}px;
-
-    border: 1px solid black;
-    border-radius: 16px;
-    font-weight: 600;
-
+    border: 2px solid ${COLOR.GREY_DARK};
     border-radius: 16px;
 
-    cursor: pointer;
+    color: ${(props: Props) => props.color};    
+    background-color: #fff;
 
     :hover {
-        color: grey;
+        border: 2px solid grey;
     }
 
     :focus {
-        color: #000;
+        border: 2px solid ${COLOR.BROWN_DARK};
     }
 
-    :disabled {
-        background-color: grey;
-        color: #fff;
-        cursor: not-allowed;
+    :active {
+        border: 2px solid ${COLOR.BLUE_VERY_DARK};
+        color: #010101;
     }
 
-    position: relative;
-
-    span {
-        position: absolute;
-        top: 32%;
-        left: 15%;
-    }
+    ${ButtonBase};
 
     a {
-        color: ${props => props.color};
+        color: ${(props: Props) => props.color};
         text-decoration: none;
     }
 `;
 
-const Button: FunctionComponent<Props> = ({children, color, disabled, fullWidth, href, target, loading, size, variant }) => {
+const Button: FunctionComponent<Props> = ({children, color, disabled, fullWidth, href, target, loading, size, variant }: Props) => {
     if (variant === 'primary') {
         if (loading) {
-                return (<PrimaryButton color={color} disabled={disabled} fullWidth={fullWidth} size={size}>
-                    {href ? <><span><FaGgCircle color="white" /></span><a href={target ? target : "#"} >{children}</a></>
-                          : <><span><FaGgCircle color="white" /></span>{children}</>
-                    }
-                </PrimaryButton>);
+            return <PrimaryButton color={color} disabled={disabled} fullWidth={fullWidth} size={size}>
+                {href ? <><StyledSpinner><FaDotCircle size="14px" color="red" /></StyledSpinner><a href={target ? target : "#"} >{children}</a></>
+                      : <><StyledSpinner><FaDotCircle size="14px" color="red" /></StyledSpinner>{children}</>
+                }
+            </PrimaryButton>;
         }
-        return <PrimaryButton color={color} disabled={disabled} fullWidth={fullWidth} size={size}>{children}</PrimaryButton>;
-    } else if (variant === 'tertiary') {
+        return (<PrimaryButton color={color} disabled={disabled} fullWidth={fullWidth} size={size}>
+                {href ? <><a href={target ? target : "#"} >{children}</a></>
+                      : <>{children}</>
+                }
+                </PrimaryButton>);
+    } else {
         if(loading) {
             return <TertiaryButton color={color} disabled={disabled} fullWidth={fullWidth} size={size}>
-                {href ? <><span><FaGgCircle color="red" /></span><a href={target ? target : "#"} >{children}</a></>
-                    : <><span><FaGgCircle color="red" /></span>{children}</>
+                {href ? <><StyledSpinner><FaDotCircle size="14px" color="red" /></StyledSpinner><a href={target ? target : "#"} >{children}</a></>
+                      : <><StyledSpinner><FaDotCircle size="14px" color="red" /></StyledSpinner>{children}</>
                 }
             </TertiaryButton>;
         }
-        return <TertiaryButton color={color} disabled={disabled} fullWidth={fullWidth} size={size}>{children}</TertiaryButton>;
+        return (
+            <TertiaryButton color={color} disabled={disabled} fullWidth={fullWidth} size={size}>
+                {href ? <><a href={target ? target : "#"} >{children}</a></>
+                      : <>{children}</>
+                }
+            </TertiaryButton>
+        );
     }
-    return <PrimaryButton color={color} disabled={disabled} fullWidth={fullWidth} size={size}>{children}</PrimaryButton>;
 }
 
 export default Button;

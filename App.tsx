@@ -1,12 +1,12 @@
 import React from 'react';
-import './App.css';
 
-import Button from './components/Buttons/Button';
+import Button from '../src/components/Buttons/Button';
 
 function App() {
   return (
     <div className="App">
-      <p>App</p>
+      <p>Yarn storybook</p>
+      <Button color="#fff" loading href target="#example" variant="primary" size="small">Primary</Button>
     </div>
   );
 }
