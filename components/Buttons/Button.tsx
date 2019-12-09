@@ -14,28 +14,7 @@ type Props = {
     variant?: string
 };
 
-// const Base = ``;
-
-const PrimaryButton = styled.button<Props>`
-    color: ${(props: Props) => props.color};
-    background-color: black;
-
-    border-radius: 16px;
-    padding: ${(props: Props) => props.size === "small" ?  8 : 12}px;
-    width: ${(props: Props) => props.fullWidth ? "100%" : "128px"};
-
-    border: none;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    :hover {
-        color: grey;
-    }
-
-    :focus {
-        color: #fff;
-    }
+const ButtonBase = `
 
     :disabled {
         background-color: grey;
@@ -51,6 +30,30 @@ const PrimaryButton = styled.button<Props>`
         left: 15%;
     }
 
+    font-weight: 600;
+    cursor: pointer;
+`;
+
+const PrimaryButton = styled.button<Props>`
+    background-color: black;
+    color: ${(props: Props) => props.color};
+    border: none;
+
+    border-radius: 16px;
+    width: ${(props: Props) => props.fullWidth ? "100%" : "128px"};
+    padding: ${(props: Props) => props.size === "small" ?  8 : 12}px;
+
+    :hover {
+        color: grey;
+    }
+
+    :focus {
+        color: #fff;
+    }
+
+
+    ${ButtonBase};
+
     a {
         color: ${props => props.color};
         text-decoration: none;   
@@ -58,20 +61,13 @@ const PrimaryButton = styled.button<Props>`
 `;
 
 const TertiaryButton = styled.button<Props>`
-
     width: ${(props: Props) => props.fullWidth ? "100%" : "128px"};
-    color: ${(props: Props) => props.color};    
-
-    background-color: #fff;
     padding: ${(props: Props) => props.size === "small" ?  8 : 12}px;
-
     border: 1px solid black;
     border-radius: 16px;
-    font-weight: 600;
 
-    border-radius: 16px;
-
-    cursor: pointer;
+    color: ${(props: Props) => props.color};    
+    background-color: #fff;
 
     :hover {
         color: grey;
@@ -81,19 +77,7 @@ const TertiaryButton = styled.button<Props>`
         color: #000;
     }
 
-    :disabled {
-        background-color: grey;
-        color: #fff;
-        cursor: not-allowed;
-    }
-
-    position: relative;
-
-    span {
-        position: absolute;
-        top: 32%;
-        left: 15%;
-    }
+    ${ButtonBase};
 
     a {
         color: ${props => props.color};
@@ -115,7 +99,7 @@ const Button: FunctionComponent<Props> = ({children, color, disabled, fullWidth,
         if(loading) {
             return <TertiaryButton color={color} disabled={disabled} fullWidth={fullWidth} size={size}>
                 {href ? <><span><FaGgCircle color="red" /></span><a href={target ? target : "#"} >{children}</a></>
-                    : <><span><FaGgCircle color="red" /></span>{children}</>
+                      : <><span><FaGgCircle color="red" /></span>{children}</>
                 }
             </TertiaryButton>;
         }
