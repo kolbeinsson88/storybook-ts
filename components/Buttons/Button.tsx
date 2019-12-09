@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 
-import { FaStumbleuponCircle } from 'react-icons/fa';
+import { FaDotCircle } from 'react-icons/fa';
 
 import { COLOR } from '../../styles/colors';
 
@@ -34,7 +34,6 @@ const StyledSpinner = styled.span`
 `;
 
 const ButtonBase = css`
-
     :disabled {
         background-color: grey;
         color: #fff;
@@ -52,18 +51,24 @@ const ButtonBase = css`
 const PrimaryButton = styled.button<Props>`
     background-color: ${COLOR.BROWN_DARK};
     color: ${(props: Props) => props.color};
-    border: none;
 
     border-radius: 16px;
     width: ${(props: Props) => props.fullWidth ? "100%" : "128px"};
     padding: ${(props: Props) => props.size === "small" ?  8 : 12}px;
 
+    border: 2px solid ${COLOR.BLACK};
+
     :hover {
-        color: "#f1f1f1";
+        border: 2px solid ${COLOR.BLUE_VERY_DARK};
     }
 
     :focus {
-        color: #fff;
+        border: 2px solid ${COLOR.BROWN_DARK};
+    }
+
+    :active {
+        border: 2px solid ${COLOR.BLUE_VERY_DARK};
+        color: #010101;
     }
 
     ${ButtonBase};
@@ -84,11 +89,16 @@ const TertiaryButton = styled.button<Props>`
     background-color: #fff;
 
     :hover {
-        color: ${COLOR.BLUE_VERY_DARK};
+        border: 2px solid grey;
     }
 
     :focus {
-        color: #000;
+        border: 2px solid ${COLOR.BROWN_DARK};
+    }
+
+    :active {
+        border: 2px solid ${COLOR.BLUE_VERY_DARK};
+        color: #010101;
     }
 
     ${ButtonBase};
@@ -103,8 +113,8 @@ const Button: FunctionComponent<Props> = ({children, color, disabled, fullWidth,
     if (variant === 'primary') {
         if (loading) {
             return <PrimaryButton color={color} disabled={disabled} fullWidth={fullWidth} size={size}>
-                {href ? <><StyledSpinner><FaStumbleuponCircle size="14px" color="red" /></StyledSpinner><a href={target ? target : "#"} >{children}</a></>
-                      : <><StyledSpinner><FaStumbleuponCircle size="14px" color="red" /></StyledSpinner>{children}</>
+                {href ? <><StyledSpinner><FaDotCircle size="14px" color="red" /></StyledSpinner><a href={target ? target : "#"} >{children}</a></>
+                      : <><StyledSpinner><FaDotCircle size="14px" color="red" /></StyledSpinner>{children}</>
                 }
             </PrimaryButton>;
         }
@@ -116,8 +126,8 @@ const Button: FunctionComponent<Props> = ({children, color, disabled, fullWidth,
     } else {
         if(loading) {
             return <TertiaryButton color={color} disabled={disabled} fullWidth={fullWidth} size={size}>
-                {href ? <><StyledSpinner><FaStumbleuponCircle size="14px" color="red" /></StyledSpinner><a href={target ? target : "#"} >{children}</a></>
-                      : <><StyledSpinner><FaStumbleuponCircle size="14px" color="red" /></StyledSpinner>{children}</>
+                {href ? <><StyledSpinner><FaDotCircle size="14px" color="red" /></StyledSpinner><a href={target ? target : "#"} >{children}</a></>
+                      : <><StyledSpinner><FaDotCircle size="14px" color="red" /></StyledSpinner>{children}</>
                 }
             </TertiaryButton>;
         }
